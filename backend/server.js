@@ -64,7 +64,9 @@ app.use("/api", adminRoutes);
 console.log("GET: /api/analytics");
 
 //runs in terminal
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
  
