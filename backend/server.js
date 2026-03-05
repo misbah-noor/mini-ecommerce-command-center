@@ -17,7 +17,11 @@ app.use(express.json());
 
 //CORS middleware
 app.use(cors({
-  origin: "*",
+  origin: [
+    "http://localhost:5173",
+    "https://mini-ecommerce-command-center.vercel.app",
+  ],
+  credentials: true
 }));
 
 
