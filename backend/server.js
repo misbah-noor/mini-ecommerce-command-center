@@ -18,7 +18,6 @@ app.use(express.json());
 //CORS middleware
 app.use(cors({
   origin: "*",
-  credentials: true
 }));
 
 
