@@ -20,15 +20,15 @@ const Navbar = ({ darkMode, toggleTheme }) => {
   };
 
   return (
-    <nav className="fixed w-full z-50 backdrop-blur-sm bg-[var(--color-bg)]/90 border-b border-[var(--color-border)] shadow-sm">
+    <nav className="fixed w-full z-50 backdrop-blur-sm bg-white/50 border-b border-[var(--color-border)] shadow-sm">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8 py-4">
         
         {/* LOGO */}
         <Link
           to="/home"
-          className="flex items-center gap-2 text-sm md:text-2xl font-bold tracking-wide text-[var(--color-primary)]"
+          className="flex items-center gap-2 text-sm sm:text-xl md:text-2xl font-bold tracking-wide text-[var(--color-primary)]"
         >
-          <FaStore className="text-[var(--color-primary)] text-lg md:text-2xl" />
+          <FaStore className="text-[var(--color-primary)] text-xl md:text-3xl" />
           Mini E-Store
         </Link>
 

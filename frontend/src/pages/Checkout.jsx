@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -58,17 +59,20 @@ const CheckoutForm = ({ cart, orderIds, totalAmount }) => {
     <div className="min-h-screen bg-[var(--color-bg)] pb-20">
 
  {/* ===== Banner Section ===== */}  
-      <div className="h-[400px] relative flex items-center justify-center overflow-hidden">
+      <div className="h-[350px] md:h-[500px] relative flex items-center justify-center overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1607083206968-13611e3d76db"
+          src="./payment.webp"
           alt="checkout banner"
           className="absolute w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-black/60"></div>
 
-        <h2 className="relative text-4xl font-bold text-[var(--color-primary)]">
-          Checkout
-        </h2>
+       <motion.h2 
+               initial={{ opacity: 0, y: -40 }}
+               animate={{ opacity: 1, y: 0 }}
+               className="relative text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+                 Checkout
+               </motion.h2>
       </div>
 
       <div className="max-w-5xl mx-auto px-6 mt-12 space-y-6 flex flex-col lg:flex-row w-full gap-10 relative z-10">

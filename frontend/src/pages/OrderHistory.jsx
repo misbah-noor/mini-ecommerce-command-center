@@ -61,18 +61,18 @@ const OrderHistory = () => {
     <div className="min-h-screen bg-[var(--color-bg)] pb-20">
 
       {/* ===== Banner Section ===== */}  
-      <div className="h-[400px] relative flex items-center justify-center overflow-hidden">
+      <div className="h-[350px] md:h-[500px] relative flex items-center justify-center overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1607083206968-13611e3d76db"
+          src="./historyOrder.jpg"
           alt="checkout banner"
           className="absolute w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-black/80"></div>
 
         <motion.h2 
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative text-4xl font-bold text-[var(--color-primary)]">
+        className="relative text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
           Order History
         </motion.h2>
       </div>

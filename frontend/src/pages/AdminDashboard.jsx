@@ -36,7 +36,7 @@ const AdminDashboard = () => {
   <div className="space-y-12">
 
     <div>
-      <h2 className="text-xl font-semibold md:text-3xl text-center py-5 text-[var(--color-primary)] mb-6">
+      <h2 className="text-3xl font-semibold md:text-4xl text-center py-5 text-[var(--color-primary)] mb-6">
         Welcome Back, Misbah
       </h2>
     </div>
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
 
         <div className="w-40 h-40 mx-auto">
           <CircularProgressbar
-            value={(data.totalSales / 90000) * 100}
+            value={(data.totalSales / 100000) * 100}
             text={`$${data.totalSales}`}
             strokeWidth={16}
             styles={buildStyles({
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
 
         <div className="w-40 h-40 mx-auto">
           <CircularProgressbar
-            value={(data.totalOrders / 300) * 100}
+            value={(data.totalOrders / 200) * 100}
             text={`${data.totalOrders}`}
             strokeWidth={18}
             styles={buildStyles({
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
         Stock Overview
       </h2>
 
-      <ResponsiveContainer width="100%" height={350}>
+      <ResponsiveContainer width="100%" height={320}>
         <BarChart data={data.stockData}>
           <CartesianGrid strokeDasharray= "3 3" stroke="var(--color-border)" />
           <XAxis dataKey="name" stroke="var(--color-muted)" />

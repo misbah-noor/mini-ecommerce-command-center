@@ -1,9 +1,9 @@
 // /pages/Cart.jsx
 import { useEffect } from "react";
-import { motion } from "framer-motion";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 
 const Cart = () => {
@@ -40,17 +40,21 @@ const Cart = () => {
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] pb-20">
 
       {/* ===== Banner Section ===== */}  
-      <div className="h-[400px] relative flex items-center justify-center overflow-hidden">
+      <div className="h-[350px] md:h-[500px] relative flex items-center justify-center overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1607083206968-13611e3d76db"
-          alt="cart banner"
+          src="./cart3.png"
+          alt="cart b2nner"
           className="absolute w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-
-        <h2 className="relative text-4xl font-bold text-[var(--color-primary)]">
-          Your Cart
-        </h2>
+        <div className="absolute inset-0 bg-black/60"></div>
+        <motion.h2 
+                initial={{ opacity: 0, y: -40 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="relative text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+                  Order History
+                </motion.h2>
+           
+        
       </div>
 
       {/* ===== Cart Content ===== */}
