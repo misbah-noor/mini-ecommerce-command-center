@@ -20,7 +20,7 @@ const Navbar = ({ darkMode, toggleTheme }) => {
   };
 
   return (
-    <nav className="fixed w-full z-50 backdrop-blur-sm bg-white/50 border-b border-[var(--color-border)] shadow-sm">
+    <nav className="fixed w-full z-50 backdrop-blur-sm bg-white border-b border-[var(--color-border)] shadow-sm">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8 py-4">
         
         {/* LOGO */}

@@ -70,7 +70,7 @@ const CheckoutForm = ({ cart, orderIds, totalAmount }) => {
        <motion.h2 
                initial={{ opacity: 0, y: -40 }}
                animate={{ opacity: 1, y: 0 }}
-               className="relative text-4xl md:text-5xl font-bold text-[var(--color-primary)]">
+               className="relative text-4xl md:text-5xl font-bold text-white">
                  Checkout
                </motion.h2>
       </div>
