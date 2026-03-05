@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
     baseURL: 
-    "https://mini-ecommerce-command-center-production-03ee.up.railway.app/api",    
+    "https://mini-ecommerce-command-center-production-03ee.up.railway.app",    
     withCredentials: true,
 });
 
