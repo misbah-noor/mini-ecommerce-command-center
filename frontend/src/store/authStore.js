@@ -12,16 +12,15 @@ export const useAuthStore = create(
       error: null,
 
       // Login / create user
-     login: async (name, role) => {
+login: async (name, role) => {
   try {
     set({ loading: true, error: null });
 
     const res = await api.get("/api/users");
 
-    if(role === "admin" && name!== "Misbah"){
+    if(role === "admin" && name !== "Misbah"){
       throw new Error("Invalid admin credentials");
     }
-
 
     let existingUser = res.data.find(
       (u) => u.name === name && u.role === role
@@ -29,10 +28,12 @@ export const useAuthStore = create(
 
     if (!existingUser) {
       const newUser = await api.post("/api/users", { name, role });
-      existingUser = newUser.data.user;
+      existingUser = newUser.data;
     }
 
     set({ user: existingUser, loading: false });
+
+    return existingUser;
 
   } catch (err) {
     set({
@@ -41,7 +42,6 @@ export const useAuthStore = create(
     });
   }
 },
-
       // Logout
       logout: () => {
         // Clear cart

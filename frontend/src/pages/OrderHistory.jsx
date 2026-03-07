@@ -67,7 +67,7 @@ const OrderHistory = () => {
           alt="checkout banner"
           className="absolute w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/80"></div>
+        <div className="absolute inset-0 bg-black/70"></div>
 
         <motion.h2 
         initial={{ opacity: 0, y: -40 }}

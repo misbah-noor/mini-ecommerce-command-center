@@ -15,6 +15,28 @@ const placeOrder = async (req, res) => {
     const foundProduct = await Product.findById(product).session(session);
     if (!foundProduct) throw new Error("Product not found");
 
+    
+// CHECK if this product already exists in user's cart
+let existingOrder = await Order.findOne({
+  user: user,
+  product: foundProduct._id,
+  // status: "PENDING",
+}).session(session);
+
+if (existingOrder) {
+  existingOrder.quantity += quantity;
+  existingOrder.totalPrice = existingOrder.quantity * foundProduct.price;
+
+  await existingOrder.save({ session });
+  await existingOrder.populate("product user");
+
+  await session.commitTransaction();
+  session.endSession();
+
+  return res.status(200).json(existingOrder);
+}
+
+
     // Choose warehouse
     const warehouses = ["A", "B", "C"];
     let chosenWarehouse = null;
