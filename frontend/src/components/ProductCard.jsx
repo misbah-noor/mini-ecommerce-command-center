@@ -7,11 +7,32 @@ import { FaShoppingCart, FaStar, FaMinus, FaPlus } from "react-icons/fa";
 const ProductCard = ({ product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const user = useAuthStore((state) => state.user);
-  const [quantity, setQuantity] = useState(1);
 
-  const increaseQty = () => setQuantity((prev) => prev + 1);
+  const [quantity, setQuantity] = useState(
+    product.warehouses.C > 0 ? 1 : 0
+  );
+
+  const increaseQty = () => {
+    if (quantity < product.warehouses) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
+
   const decreaseQty = () => {
-    if (quantity > 1) setQuantity((prev) => prev - 1);
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (quantity <= product.warehouses.C && product.warehouses.C > 0) {
+      addToCart(product, quantity);
+    }
+  };
+
+  const getStockLabel = () => {
+    if (product.warehouses.C === 0) return "Out of Stock";
+    return "In Stock";
   };
 
   return (
@@ -53,23 +74,44 @@ const ProductCard = ({ product }) => {
           <p className="text-xl md:text-2xl font-semibold text-[var(--color-danger)] tracking-tight">
             ${product.price}
           </p>
-          <span className="text-xs bg-[var(--color-primary)/20] text-[var(--color-primary)] px-3 py-1 rounded-full">
-            In Stock
+
+          <span
+            className={`text-xs px-3 py-1 rounded-full font-semibold
+              ${
+                product.warehouses.C > 0
+                  ? "bg-green-100 text-green-600"
+                  : "bg-red-100 text-red-600"
+              }`}
+          >
+            {getStockLabel()}
           </span>
         </div>
 
         {/* Quantity Selector */}
-        <div className="flex items-center justify-center gap-4 bg-[var(--color-bg)] rounded-lg py-2 border border-[var(--color-border)]">
+        <div
+          className={`flex items-center justify-center gap-4 rounded-lg py-2 border
+          ${
+            product.warehouses.C === 0
+              ? "bg-gray-200 cursor-not-allowed opacity-60"
+              : "bg-[var(--color-bg)] border-[var(--color-border)]"
+          }`}
+        >
           <button
             onClick={decreaseQty}
-            className="text-[var(--color-primary)] hover:text-[var(--color-text)] transition"
+            disabled={product.warehouses.C === 0}
+            className="text-[var(--color-primary)] hover:text-[var(--color-text)] transition disabled:opacity-50"
           >
             <FaMinus />
           </button>
-          <span className="text-[var(--color-text)] font-semibold text-lg">{quantity}</span>
+
+          <span className="text-[var(--color-text)] font-semibold text-lg">
+            {quantity}
+          </span>
+
           <button
             onClick={increaseQty}
-            className="text-[var(--color-primary)] hover:text-[var(--color-text)] transition"
+            disabled={product.warehouses.C === 0}
+            className="text-[var(--color-primary)] hover:text-[var(--color-text)] transition disabled:opacity-50"
           >
             <FaPlus />
           </button>
@@ -78,11 +120,17 @@ const ProductCard = ({ product }) => {
         {/* CTA Button */}
         {user ? (
           <button
-            onClick={() => addToCart(product, quantity)}
-            className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-[var(--color-bg)] font-bold py-3 rounded-xl shadow hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+            onClick={handleAddToCart}
+            disabled={product.warehouses.C === 0}
+            className={`w-full flex items-center justify-center gap-2 font-bold py-3 rounded-xl shadow transition-all duration-300
+              ${
+                product.warehouses.C  === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[var(--color-primary)] text-[var(--color-bg)] hover:shadow-lg hover:scale-105 active:scale-95"
+              }`}
           >
             <FaShoppingCart />
-            Add to Cart
+            {product.warehouses.C === 0 ? "Out of Stock" : "Add to Cart"}
           </button>
         ) : (
           <button

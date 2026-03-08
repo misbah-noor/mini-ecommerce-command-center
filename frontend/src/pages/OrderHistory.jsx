@@ -116,7 +116,7 @@ const OrderHistory = () => {
 
                 <div className="text-right">
                   <p className="text-2xl font-bold text-[var(--color-primary)]">
-                    ${order.totalPrice.toFixed(2)}
+                    ${order.product?.price * order.quantity}
                   </p>
                   <p className="text-sm text-gray-400">Qty: {order.quantity}</p>
                 </div>

@@ -1,4 +1,3 @@
-// store/authStore.js
 import { create } from "zustand";
 import api from "../api/axios";
 import { persist } from "zustand/middleware";
@@ -11,45 +10,51 @@ export const useAuthStore = create(
       loading: false,
       error: null,
 
-      // Login / create user
-login: async (name, role) => {
-  try {
-    set({ loading: true, error: null });
+      // Login / auto-create user
+      login: async (name, email, password, role = "customer") => {
+        try {
+          set({ loading: true, error: null });
 
-    const res = await api.get("/api/users");
+          // Fetch all users
+          const res = await api.get("/api/users");
+          let existingUser = res.data.find((u) => u.email === email);
 
-    if(role === "admin" && name !== "Misbah"){
-      throw new Error("Invalid admin credentials");
-    }
+          // Admin check
+          if (role === "admin" && email !== "misbah@admin.com") {
+            throw new Error("Invalid admin credentials");
+          }
 
-    let existingUser = res.data.find(
-      (u) => u.name === name && u.role === role
-    );
+          if (!existingUser) {
+            // Create new user (customer)
+            const newUser = await api.post("/api/users", {
+              name,
+              email,
+              password,
+              role: role === "admin" ? "admin" : "customer",
+            });
+            existingUser = newUser.data;
+          } else if (existingUser.password !== password) {
+            throw new Error("Invalid password");
+          }
 
-    if (!existingUser) {
-      const newUser = await api.post("/api/users", { name, role });
-      existingUser = newUser.data;
-    }
+          set({ user: existingUser, loading: false });
 
-    set({ user: existingUser, loading: false });
+          return existingUser;
 
-    return existingUser;
+        } catch (err) {
+          set({
+            error: err.response?.data?.error || err.message,
+            loading: false,
+          });
+        }
+      },
 
-  } catch (err) {
-    set({
-      error: err.response?.data?.error || err.message,
-      loading: false,
-    });
-  }
-},
       // Logout
       logout: () => {
-        // Clear cart
         useCartStore.getState().clearCart();
-        // Remove user
         set({ user: null, error: null });
       },
     }),
     { name: "auth-storage" } // persist auth info
   )
-);          
+);

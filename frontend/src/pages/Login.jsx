@@ -6,17 +6,22 @@ import { motion } from "framer-motion";
 
 const Login = () => {
   const [name, setName] = useState("");
-  const [role, setRole] = useState("customer");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
   const { login, loading, error } = useAuthStore();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const user = await login(name, role);
+
+    const user = await login(name, email, password, "customer");
     if (!user) return;
 
-    if (user.role === "admin") navigate("/admin-dashboard", { replace: true });
-    else navigate("/home", { replace: true });
+    if (user.role === "admin") 
+       navigate("/admin-dashboard", { replace: true });
+    else
+       navigate("/home", { replace: true });
   };
 
   return (
@@ -63,15 +68,25 @@ const Login = () => {
               onChange={(e) => setName(e.target.value)}
               required
             />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-            <select
-              className="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="customer" className="text-black">Customer</option>
-              <option value="admin" className="text-black">Admin</option>
-            </select>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              className="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+           
 
             <motion.button
               whileHover={{ scale: 1.03 }}
