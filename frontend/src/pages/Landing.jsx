@@ -8,8 +8,8 @@ const Landing = () => {
     <div className="min-h-screen bg-white text-black flex flex-col overflow-hidden relative">
 
           {/* Glow Effects */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[var(--color-primary)]/20 blur-3xl rounded-full"></div>
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[var(--color-primary)]/10 blur-3xl rounded-full"></div>
+      <div className="pointer-events-none absolute top-0 left-0 w-96 h-96 bg-[var(--color-primary)]/20 blur-3xl rounded-full"></div>
+      <div className="pointer-events-none absolute bottom-0 right-0 w-[500px] h-[500px] bg-[var(--color-primary)]/10 blur-3xl rounded-full"></div>
 
    
       {/* ---------------- HERO SECTION ---------------- */}
