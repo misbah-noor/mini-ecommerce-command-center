@@ -13,7 +13,7 @@ const Landing = () => {
 
    
       {/* ---------------- HERO SECTION ---------------- */}
-      <div className="flex flex-col pt-16 items-center justify-center flex-1 text-center px-6">
+      <div className="flex flex-col pt-18 pb-5 items-center justify-center flex-1 text-center px-6">
 
         {/* Image */}
         <motion.img
