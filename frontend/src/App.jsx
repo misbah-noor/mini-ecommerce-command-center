@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 
 // Pages & Layouts
+import Landing from "./pages/Landing"
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
@@ -53,6 +54,9 @@ function App() {
 
       <Routes>
         {/* Public Route */}
+        <Route path="/" element={<Landing />} />
+
+        {/* Login Route */}
         <Route
           path="/login"
           element={
@@ -97,7 +101,7 @@ function App() {
                   ? user.role === "admin"
                     ? "/admin-dashboard"
                     : "/home"
-                  : "/login"
+                  : "/"
               }
               replace
             />
