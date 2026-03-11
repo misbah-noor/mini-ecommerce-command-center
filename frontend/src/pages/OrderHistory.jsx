@@ -51,7 +51,7 @@ const OrderHistory = () => {
   if (orders.length === 0)
     return (
       <div className="min-h-screen bg-[var(--color-bg)] flex flex-col items-center justify-center">
-        <img src="./order.png" alt="empty order" className="w-64 h-64 object-contain mb-4"/>
+        <img src="./order.png" alt="empty order" className="w-45 h-45 object-contain mb-4"/>
         <h2 className="text-3xl md:text-4xl font-semibold text-[var(--color-text)] mb-4">Nothing</h2>
         <p className="text-lg text-[var(--color-text)] mb-6">Your order list is empty now!</p>
         <button

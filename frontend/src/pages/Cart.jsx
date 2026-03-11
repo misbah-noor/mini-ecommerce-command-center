@@ -26,9 +26,9 @@ const Cart = () => {
     if (cart.length === 0)
     return (
       <div className="min-h-screen bg-[var(--color-bg)] flex flex-col items-center justify-center">
-        <img src="./ecart.png" alt="Empty cart" className="w-64 h-64 object-contain mb-4" />
+        <img src="./ecart.png" alt="Empty cart" className="w-45 h-45 object-contain mb-4" />
         <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-[var(--color-text)]">Your cart is empty</h2>
-        <p className="text-lg font-light text-[var(--color-text)] mb-6 mt-3">Must add items on the cart before you proceed to checkout</p>
+        <p className="text-lg font-light text-[var(--color-text)] text-center px-4 mb-6 mt-3">Must add items on the cart before you proceed to checkout</p>
         <button
           onClick={() => navigate("/home")}
           className="px-6 py-3 text-lg bg-[var(--color-primary)] text-white rounded-xl font-semibold hover:scale-105 transition"
