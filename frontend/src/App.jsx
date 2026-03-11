@@ -1,5 +1,5 @@
 // App.jsx
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "./store/authStore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +28,7 @@ function App() {
   const user = useAuthStore((state) => state.user);
   const [darkMode, setDarkMode] = useState(false);
 
+  const location = useLocation();
   // Load theme from localStorage on mount
   useEffect(() => {
     if (localStorage.getItem("theme") === "dark") {
@@ -48,7 +49,11 @@ function App() {
       <ToastContainer position="bottom-right" />
 
       {/* Show Navbar only for customers */}
-      {user && user.role === "customer" && (
+      {
+      location.pathname !== "/" &&
+      location.pathname !== "/admin-dashboard" &&
+      location.pathname !== "/login" &&
+      (
         <Navbar darkMode={darkMode} toggleTheme={toggleTheme} />
       )}
 
@@ -57,6 +62,7 @@ function App() {
         <Route path="/" element={<Landing />} />
 
         {/* Login Route */}
+        <Route path="/home" element={<Home />} />
         <Route
           path="/login"
           element={
@@ -73,7 +79,7 @@ function App() {
 
         {/* Customer Protected Routes */}
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
-          <Route path="/home" element={<Home />} />
+          
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
@@ -109,7 +115,11 @@ function App() {
         />
         {/* show footer only for customers */}
       </Routes>
-       {user && user.role === "customer" && (
+       {
+       location.pathname !== "/" &&
+       location.pathname !== "/admin-dashboard" &&
+       location.pathname !== "/login" &&
+       (
         <Footer />
       )}
     </>

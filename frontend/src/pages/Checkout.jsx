@@ -25,35 +25,50 @@ const CheckoutForm = ({ cart, orderIds, totalAmount }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+ 
   const handlePayment = async () => {
-    if (!stripe || !elements) return;
+  if (!stripe || !elements) return;
 
-    try {
-      setLoading(true);
-      const res = await api.post("/api/payment", { orderIds });
-      const clientSecret = res.data.clientSecret;
+  try {
+    setLoading(true);
 
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: { card: elements.getElement(CardNumberElement) }
-      });
+    // Create PaymentIntent
+    const res = await api.post("/api/payment", { orderIds });
+    const clientSecret = res.data.clientSecret;
 
-      if (result.error) {
-        toast.error("Payment failed");
-        navigate("/cancel");
-        setLoading(false);
-        return;
-      }
+    // Confirm Payment
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: { card: elements.getElement(CardNumberElement) }
+    });
 
-      toast.success("Payment successful 🎉");
-      navigate("/payment-success");
-    } catch (err) {
-      console.log(err);
-      toast.error("Payment error");
+    if (result.error) {
+      toast.error("Payment failed");
       navigate("/cancel");
+      setLoading(false);
+      return;
     }
 
-    setLoading(false);
-  };
+    toast.success("Payment successful 🎉");
+
+    // Update order status to CONFIRMED immediately
+    await Promise.all(
+      orderIds.map((id) =>
+        api.patch(`/api/orders/${id}/status`, { status: "CONFIRMED" })
+      )
+    );
+
+    // Now order history page will show confirmed orders
+    navigate("/payment-success");
+  } catch (err) {
+    console.log(err);
+    toast.error("Payment error");
+    navigate("/cancel");
+  }
+
+  setLoading(false);
+};
+
+
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] pb-20">

@@ -11,43 +11,59 @@ export const useAuthStore = create(
       error: null,
 
       // Login / auto-create user
-      login: async (name, email, password, role = "customer") => {
-        try {
-          set({ loading: true, error: null });
+      login: async (email, password) => {
+  try {
+    set({ loading: true, error: null });
 
-          // Fetch all users
-          const res = await api.get("/api/users");
-          let existingUser = res.data.find((u) => u.email === email);
+    const res = await api.get("/api/users");
 
-          // Admin check
-          if (role === "admin" && email !== "misbah@admin.com") {
-            throw new Error("Invalid admin credentials");
-          }
+    const existingUser = res.data.find((u) => u.email === email);
 
-          if (!existingUser) {
-            // Create new user (customer)
-            const newUser = await api.post("/api/users", {
-              name,
-              email,
-              password,
-              role: role === "admin" ? "admin" : "customer",
-            });
-            existingUser = newUser.data;
-          } else if (existingUser.password !== password) {
-            throw new Error("Invalid password");
-          }
+    if (!existingUser) {
+      throw new Error("User not found. Please sign up first.");
+    }
 
-          set({ user: existingUser, loading: false });
+    if (existingUser.password !== password) {
+      throw new Error("Invalid password");
+    }
 
-          return existingUser;
+    set({ user: existingUser, loading: false });
 
-        } catch (err) {
-          set({
-            error: err.response?.data?.error || err.message,
-            loading: false,
-          });
-        }
-      },
+    return existingUser;
+
+  } catch (err) {
+    set({
+      error: err.response?.data?.error || err.message,
+      loading: false,
+    });
+  }
+},
+
+
+      // Register new user
+      register: async (name, email, password, role = "customer") => {
+  try {
+    set({ loading: true, error: null });
+
+    const newUser = await api.post("/api/users", {
+      name,
+      email,
+      password,
+      role
+    });
+
+    set({ user: newUser.data, loading: false });
+
+    return newUser.data;
+
+  } catch (err) {
+    set({
+      error: err.response?.data?.error || err.message,
+      loading: false
+    });
+  }
+},
+
 
       // Logout
       logout: () => {

@@ -12,11 +12,11 @@ const Navbar = ({ darkMode, toggleTheme }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const firstLetter = user?.name?.charAt(0).toUpperCase();
+  const firstLetter = user?.name?user.name.charAt(0).toUpperCase(): "?";
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login", { replace: true });
+    navigate("/home", { replace: true });
   };
 
   return (
@@ -102,7 +102,7 @@ const Navbar = ({ darkMode, toggleTheme }) => {
             </>
           )}
 
-          {!user && <Link to="/login" className="text-[var(--color-primary)] font-semibold">Login</Link>}
+          {!user && <Link to="/login" className="text-md text-white px-5 py-3 bg-[var(--color-primary)] font-semibold rounded-lg">Login</Link>}
         </div>
       </div>
     </nav>

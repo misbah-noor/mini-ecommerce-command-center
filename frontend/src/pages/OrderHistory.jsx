@@ -4,7 +4,7 @@ import api from "../api/axios";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 
-const steps = ["PLACED", "CONFIRMED", "SHIPPED"];
+const steps = ["CONFIRMED", "SHIPPED"];
 
 const OrderHistory = () => {
   const { user } = useAuthStore();
@@ -17,7 +17,11 @@ const OrderHistory = () => {
     const fetchOrders = async () => {
       try {
         const res = await api.get(`/api/orders/user-orders?userId=${user._id}`);
-        setOrders(res.data);
+        // Only include orders that are CONFIRMED or SHIPPED
+        const confirmedOrders = res.data.filter(
+          (order) => order.status === "CONFIRMED" || order.status === "SHIPPED"
+        );
+        setOrders(confirmedOrders);
       } catch (err) {
         console.log("Order fetch error:", err);
       } finally {
@@ -46,11 +50,13 @@ const OrderHistory = () => {
 
   if (orders.length === 0)
     return (
-      <div className="min-h-screen bg-[var(--color-bg)] flex flex-col items-center justify-center text-gray-400">
-        <h2 className="text-3xl font-semibold mb-4">No orders yet 📦</h2>
+      <div className="min-h-screen bg-[var(--color-bg)] flex flex-col items-center justify-center">
+        <img src="./order.png" alt="empty order" className="w-64 h-64 object-contain mb-4"/>
+        <h2 className="text-3xl md:text-4xl font-semibold text-[var(--color-text)] mb-4">Nothing</h2>
+        <p className="text-lg text-[var(--color-text)] mb-6">Your order list is empty now!</p>
         <button
           onClick={() => navigate("/home")}
-          className="px-6 py-3 bg-[var(--color-primary)] text-black rounded-xl font-semibold hover:scale-105 transition"
+          className="px-6 py-3 bg-[var(--color-primary)] text-lg text-white rounded-xl font-semibold hover:scale-105 transition"
         >
           Start Shopping
         </button>

@@ -3,10 +3,16 @@ import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { useState } from "react";
 import { FaShoppingCart, FaStar, FaMinus, FaPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 const ProductCard = ({ product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
+
+
 
   const [quantity, setQuantity] = useState(
     product.warehouses.C > 0 ? 1 : 0
@@ -25,8 +31,15 @@ const ProductCard = ({ product }) => {
   };
 
   const handleAddToCart = () => {
+    if(!user){
+     toast.info("Please login to add items to cart");
+      navigate("/login");
+    }
+
     if (quantity <= product.warehouses.C && product.warehouses.C > 0) {
       addToCart(product, quantity);
+    } else {
+      toast.error("Invalid quantity or out of stock");
     }
   };
 
@@ -134,10 +147,10 @@ const ProductCard = ({ product }) => {
           </button>
         ) : (
           <button
-            disabled
-            className="w-full bg-[var(--color-border)] text-[var(--color-muted)] py-3 rounded-xl cursor-not-allowed"
+            onClick={handleAddToCart}
+            className="w-full bg-[var(--color-primary)] text-[var(--color-bg)] py-3 rounded-xl cursor-pointer"
           >
-            Login to Add
+            Add to cart
           </button>
         )}
       </div>

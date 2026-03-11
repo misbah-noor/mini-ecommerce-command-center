@@ -115,7 +115,8 @@ const Home = () => {
       </motion.div>
 
       {/* FEATURE CARDS SECTION */}
-      <section className="bg-[var(--color-card)] py-20 px-8">
+      <section className="bg-[var(--color-card)] pb-20 px-8">
+        <h1 className="text-center text-4xl text-[var(--color-primary)] font-bold py-12">Why Choose Us</h1>
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 text-center">
 
           <div className="p-8 rounded-2xl border border-[var(--color-border)] hover:shadow-xl transition duration-300">

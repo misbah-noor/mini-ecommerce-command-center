@@ -7,6 +7,13 @@ const router = express.Router();
 //post users
 router.post("/users", async (req, res) => {
   try {
+
+    const existing = await User.findOne({ email: req.body.email });
+    if(existing){
+      return res.status(400).json({error:"User with this email already exists."});
+    }
+    
+
     const user = new User(req.body);
     await user.save();
 
