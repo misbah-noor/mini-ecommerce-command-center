@@ -57,7 +57,7 @@ const CheckoutForm = ({ cart, orderIds, totalAmount }) => {
       )
     );
 
-    // Now order history page will show confirmed orders
+    // order history page will show confirmed orders
     navigate("/payment-success");
   } catch (err) {
     console.log(err);

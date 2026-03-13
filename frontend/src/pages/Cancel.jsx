@@ -9,8 +9,8 @@ export default function Cancel() {
     <div className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center p-6 relative overflow-hidden">
 
       {/* Background Glow */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[var(--color-danger)]/20 blur-3xl rounded-full"></div>
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[var(--color-danger)]/10 blur-3xl rounded-full"></div>
+      <div className="absolute top-0 left-0 w-96 h-96 md:bg-[var(--color-danger)]/20 blur-3xl rounded-full"></div>
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] md:bg-[var(--color-danger)]/10 blur-3xl rounded-full"></div>
 
       {/* Glass Card */}
       <motion.div

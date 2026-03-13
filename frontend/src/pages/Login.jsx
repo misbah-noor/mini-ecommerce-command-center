@@ -15,43 +15,45 @@ const Login = () => {
   const { login, register, loading, error } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    //Password validation
-    if(password.length < 6){
-      toast.error("Password must be at least 6 characters");
-      return;
-    }
-    if(!email.includes("@")){
-      toast.error("Please enter a valid email");
-      return;
-    }
+  if (password.length < 6) {
+    toast.error("Password must be at least 6 characters");
+    return;
+  }
 
-    let user;
-    if (isSignUp) {
-      user = await register(name, email, password, "customer");
+  if (!email.includes("@")) {
+    toast.error("Please enter a valid email");
+    return;
+  }
 
-      if (user) {
-        toast.success(`🎉Welcome ${user.name}! Account created.`);
-        navigate("/home", { replace: true });
-        return;
-      }
-    } else {
-      user = await login(email, password);
+  let user;
 
-      if (user) {
-        toast.success(`Welcome back ${user.name}!`);
-        navigate("/home", { replace: true });
-      }
-    }
+  if (isSignUp) {
+    user = await register(name, email, password, "customer");
 
-    if (user.role === "admin") navigate("/admin-dashboard", { replace: true });
-    else navigate("/home", { replace: true });
-  };
+    if (!user) return;
+
+    toast.success(`🎉Welcome ${user.name}! Account created.`);
+  } else {
+    user = await login(email, password);
+
+    if (!user) return;
+
+    toast.success(`Welcome back ${user.name}!`);
+  }
+
+  // SAFE NAVIGATION
+  if (user.role === "admin") {
+    navigate("/admin-dashboard", { replace: true });
+  } else {
+    navigate("/home", { replace: true });
+  }
+};
 
   return (
-    <div className="min-h-screen flex justify-center item-center bg-white text-black overflow-hidden relative">
+    <div className="min-h-screen flex justify-center items-center bg-white text-black overflow-hidden relative">
       {/* Glow Effects */}
       <div className="absolute top-0 left-0 w-96 h-96 md:bg-[var(--color-primary)]/20 blur-3xl rounded-full"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[var(--color-primary)]/10 blur-3xl rounded-full"></div>
