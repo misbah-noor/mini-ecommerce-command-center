@@ -16,7 +16,7 @@ export const useAuthStore = create(
           set({ loading: true, error: null });
 
           // POST request instead of GET
-          const res = await api.post("/login", { email, password });
+          const res = await api.post("/api/login", { email, password });
 
           set({ user: res.data }); // save logged-in user
           return res.data;
