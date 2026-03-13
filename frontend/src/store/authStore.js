@@ -10,60 +10,38 @@ export const useAuthStore = create(
       loading: false,
       error: null,
 
-      // Login / auto-create user
+      // Login
       login: async (email, password) => {
-  try {
-    set({ loading: true, error: null });
+        try {
+          set({ loading: true, error: null });
 
-    const res = await api.get("/api/users");
+          // POST request instead of GET
+          const res = await api.post("/login", { email, password });
 
-    const existingUser = res.data.find((u) => u.email === email);
+          set({ user: res.data }); // save logged-in user
+          return res.data;
+        } catch (err) {
+          set({ error: err.response?.data?.error || err.message });
+        } finally {
+          set({ loading: false }); // always reset loading
+        }
+      },
 
-    if (!existingUser) {
-      throw new Error("User not found. Please sign up first.");
-    }
-
-    if (existingUser.password !== password) {
-      throw new Error("Invalid password");
-    }
-
-    set({ user: existingUser, loading: false });
-
-    return existingUser;
-
-  } catch (err) {
-    set({
-      error: err.response?.data?.error || err.message,
-      loading: false,
-    });
-  }
-},
-
-
-      // Register new user
+      // Register
       register: async (name, email, password, role = "customer") => {
-  try {
-    set({ loading: true, error: null });
+        try {
+          set({ loading: true, error: null });
 
-    const newUser = await api.post("/api/users", {
-      name,
-      email,
-      password,
-      role
-    });
+          const res = await api.post("/users", { name, email, password, role });
 
-    set({ user: newUser.data, loading: false });
-
-    return newUser.data;
-
-  } catch (err) {
-    set({
-      error: err.response?.data?.error || err.message,
-      loading: false
-    });
-  }
-},
-
+          set({ user: res.data });
+          return res.data;
+        } catch (err) {
+          set({ error: err.response?.data?.error || err.message });
+        } finally {
+          set({ loading: false });
+        }
+      },
 
       // Logout
       logout: () => {
@@ -71,6 +49,6 @@ export const useAuthStore = create(
         set({ user: null, error: null });
       },
     }),
-    { name: "auth-storage" } // persist auth info
+    { name: "auth-storage" }
   )
 );

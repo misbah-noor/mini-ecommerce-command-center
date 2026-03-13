@@ -26,6 +26,29 @@ router.post("/users", async (req, res) => {
   }
 });
 
+// POST /api/login
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.password !== password) {
+      return res.status(400).json({ error: "Invalid password" });
+    }
+
+    // Successfully logged in
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.get("/users", async(req, res) => {
   try{
     const users = await User.find();
