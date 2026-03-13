@@ -32,7 +32,7 @@ export const useAuthStore = create(
         try {
           set({ loading: true, error: null });
 
-          const res = await api.post("/users", { name, email, password, role });
+          const res = await api.post("/api/users", { name, email, password, role });
 
           set({ user: res.data });
           return res.data;
