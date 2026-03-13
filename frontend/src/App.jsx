@@ -52,6 +52,8 @@ function App() {
       {
       location.pathname !== "/" &&
       location.pathname !== "/admin-dashboard" &&
+      location.pathname !== "/add-product" &&
+      location.pathname !== "/orders" &&
       location.pathname !== "/login" &&
       (
         <Navbar darkMode={darkMode} toggleTheme={toggleTheme} />
@@ -118,6 +120,8 @@ function App() {
        {
        location.pathname !== "/" &&
        location.pathname !== "/admin-dashboard" &&
+       location.pathname !== "/add-product" &&
+       location.pathname !== "/orders" &&
        location.pathname !== "/login" &&
        (
         <Footer />
